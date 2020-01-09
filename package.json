@@ -1,0 +1,15 @@
+{
+  "name": "rgraf_project",
+  "version": "1.0.0",
+  "description": "School project",
+  "author": "Marko Mihelj",
+  "main": "index.js",
+  "dependencies": {
+    "parcel-bundler": "^1.12.4",
+    "three": "^0.112.1"
+  },
+  "scripts": {
+    "start": "parcel -p 8880 watch index.html"
+  },
+  "license": "ISC"
+}
