@@ -2,3 +2,5 @@
 
 ### development:
 ```npm run start```
+
+dev server is on [localhost:8880](http://localhost:8880/)
