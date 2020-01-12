@@ -5,6 +5,7 @@ export class Hero {
     const _heroGeometry = new THREE.BoxGeometry(20, 1, 10)
     const _heroMaterial = new THREE.MeshBasicMaterial({color: 'rgb(255, 0, 0)'});
     this._model = new THREE.Mesh(_heroGeometry, _heroMaterial);
+    this._model.geometry.computeBoundingBox();
 
     // SET INITAL POSITION
     this._model.position.copy(position)
