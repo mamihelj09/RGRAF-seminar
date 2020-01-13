@@ -29,6 +29,7 @@ modelLoader().then((loadedModels) => {
   const camera = new Camera(new THREE.Vector3(-30, 80, 50), scene.position);
   const renderer = new Renderer(scene, camera._model);
   const clock = new THREE.Clock();
+  const light = new THREE.HemisphereLight('#000', 'green', 2);
 
   const scoreElement = document.getElementById('score');
   const defenceElement = document.getElementById('defence');
@@ -46,6 +47,7 @@ modelLoader().then((loadedModels) => {
   // // CREATE TERRAIN
   // const terrain = new Terrain();
   // scene.add(terrain._model);
+  scene.add(light);
 
   // CREATE HERO
   const hero = new Hero(heroModel.clone(), new THREE.Vector3(-20, 0, 0));

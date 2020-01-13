@@ -7,7 +7,9 @@ export class Hero {
   constructor(model, position) {
     this._model = model;
     this._model.scale.set(0.1, 0.1, 0.1);
-    this._model.rotateZ(1.6);
+    this._model.rotateZ(1.8);
+    this._model.rotateY(0.1);
+    this._model.rotateX(0.2);
     this._model.position.copy(position)
     this._boundery = new THREE.BoxHelper(this._model);
     this._boundery.geometry.computeBoundingBox();

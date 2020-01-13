@@ -4,7 +4,7 @@ export const KEY_TOP = 38;
 export const KEY_BOTTOM = 40;
 export const KEY_SPACE = 32;
 
-export const MAX_RESPAWN_X = 210;
+export const MAX_RESPAWN_X = 190;
 export const MIN_RESPAWN_X = 130;
 export const MAX_RESPAWN_Z = 35;
 export const MIN_RESPAWN_Z = -35;
