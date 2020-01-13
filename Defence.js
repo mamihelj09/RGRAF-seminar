@@ -1,14 +1,13 @@
 import * as THREE from 'three';
 
 export class Defence {
-  constructor(position) {
-    const _heroGeometry = new THREE.BoxGeometry(4, 1, 90)
-    const _heroMaterial = new THREE.MeshBasicMaterial({color: 'rgb(255, 255, 0)'});
-    this._model = new THREE.Mesh(_heroGeometry, _heroMaterial);
-    this._model.geometry.computeBoundingBox();
+  constructor(model, position) {
+    this._model = model;
+    this._model.position.copy(position);
+    this._model.scale.set(8, 8, 8);
 
-    // SET INITAL POSITION
-    this._model.position.copy(position)
+    this._boundery = new THREE.BoxHelper(this._model);
+    this._boundery.geometry.computeBoundingBox();
   }
 
   getPosition() {

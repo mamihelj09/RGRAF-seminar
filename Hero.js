@@ -1,14 +1,16 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+import ship_hero from './assets/ship_good.glb';
 
 export class Hero {
-  constructor(position) {
-    const _heroGeometry = new THREE.BoxGeometry(20, 1, 10)
-    const _heroMaterial = new THREE.MeshBasicMaterial({color: 'rgb(255, 0, 0)'});
-    this._model = new THREE.Mesh(_heroGeometry, _heroMaterial);
-    this._model.geometry.computeBoundingBox();
-
-    // SET INITAL POSITION
+  constructor(model, position) {
+    this._model = model;
+    this._model.scale.set(0.1, 0.1, 0.1);
+    this._model.rotateZ(1.6);
     this._model.position.copy(position)
+    this._boundery = new THREE.BoxHelper(this._model);
+    this._boundery.geometry.computeBoundingBox();
   }
 
   moveRight(offset) {
