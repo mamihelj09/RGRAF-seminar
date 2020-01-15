@@ -4,11 +4,12 @@ import { Bullet } from './Bullet';
 import { Camera } from './Camera';
 import { Hero } from './Hero';
 import { Renderer } from './Renderer';
-import { Terrain } from './Terrain';
 import { Defence } from './Defence';
 
 import { modelLoader } from './loader';
 import { updater } from './updater';
+
+import { Enemy } from './Enemy';
 
 import {
   KEY_RIGHT,
@@ -26,31 +27,30 @@ import {
 modelLoader().then((loadedModels) => {
   const { heroModel, enemyModel, planetModel } = loadedModels;
   const scene = new THREE.Scene();
-  const camera = new Camera(new THREE.Vector3(-30, 80, 50), scene.position);
+  // const camera = new Camera(new THREE.Vector3(-40, 80, 80), scene.position);
+  const camera = new Camera(new THREE.Vector3(-120, 180, 10), scene.position);
   const renderer = new Renderer(scene, camera._model);
   const clock = new THREE.Clock();
-  const light = new THREE.HemisphereLight('#000', 'green', 2);
 
-  const scoreElement = document.getElementById('score');
-  const defenceElement = document.getElementById('defence');
+  // const scoreElement = document.getElementById('score');
+  // const defenceElement = document.getElementById('defence');
 
   document.getElementById('app').appendChild(renderer._model.domElement);
 
   const enemies = [];
   const bullets = [];
-  let delta = 0;
-  let kills = 0;
-  let defenceScore = 100;
-  scoreElement.innerHTML = kills;
-  defenceElement.innerHTML = defenceScore;
+  // let delta = 0;
+  // let kills = 0;
+  // let defenceScore = 100;
+  // scoreElement.innerHTML = kills;
+  // defenceElement.innerHTML = defenceScore;
 
-  // // CREATE TERRAIN
-  // const terrain = new Terrain();
-  // scene.add(terrain._model);
+  // ADD LIGHT
+  const light = new THREE.HemisphereLight('#000', 'green', 2);
   scene.add(light);
 
   // CREATE HERO
-  const hero = new Hero(heroModel.clone(), new THREE.Vector3(-20, 0, 0));
+  const hero = new Hero(heroModel.clone(), new THREE.Vector3(-25, -2, 20));
   scene.add(hero._model);
 
   // CREATE DEFENCE
@@ -66,7 +66,7 @@ modelLoader().then((loadedModels) => {
 
   renderer.update();
 
-  document.getElementById('start').addEventListener('click', () => updater({renderer, scene, camera, clock, enemies, bullets, hero, defence}));
+  document.getElementById('start').addEventListener('click', () => updater({renderer, scene, camera, clock, enemies, bullets, hero, defence, enemyModel}));
   document.addEventListener('keydown', (e) => {
     if (e.keyCode === KEY_RIGHT) {
       hero.moveRight();

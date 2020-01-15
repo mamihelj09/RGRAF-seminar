@@ -5,6 +5,10 @@ html, body {
   position: relative;
 }
 
+canvas {
+  background: linear-gradient(to bottom,  #11e8bb 0%,#8200c9 100%);
+}
+
 .score {
   position: absolute;
   right: 0;

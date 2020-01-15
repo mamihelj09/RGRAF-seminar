@@ -5,14 +5,23 @@ import ship_hero from './assets/ship_good.glb';
 
 export class Hero {
   constructor(model, position) {
-    this._model = model;
-    this._model.scale.set(0.1, 0.1, 0.1);
-    this._model.rotateZ(1.8);
-    this._model.rotateY(0.1);
-    this._model.rotateX(0.2);
-    this._model.position.copy(position)
-    this._boundery = new THREE.BoxHelper(this._model);
-    this._boundery.geometry.computeBoundingBox();
+    const geometry = new THREE.BoxGeometry(12, 12, 12);
+    const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0.3});
+
+    this._ship = model;
+    this._ship.position.set(0, 0, 0);
+    this._ship.scale.set(0.1, 0.1, 0.1);
+    this._ship.rotateZ(1.6);
+    this._ship.rotateY(0);
+    this._ship.rotateX(0);
+
+    this._model = new THREE.Mesh(geometry, material);
+    this._model.add(this._ship);
+    this._model.geometry.computeBoundingBox();
+    this._model.position.copy(position);
+
+    this._health = 100;
+    this._score = 0;
   }
 
   moveRight(offset) {
@@ -61,5 +70,27 @@ export class Hero {
 
   getPosition() {
     return this._model.position;
+  }
+
+  handleShipAttacked() {
+    this._health -= 10;
+    const shipHealthElement = document.getElementById('ship-health');
+
+    if (shipHealthElement) {
+      shipHealthElement.innerText = this._health;
+    }
+  }
+
+  isDead() {
+    return this._health < 1;
+  }
+
+  handleEnemyKill() {
+    this._score += 1;
+    const scoreElement = document.getElementById('score');
+
+    if (scoreElement) {
+      scoreElement.innerText = this._score;
+    }
   }
 }

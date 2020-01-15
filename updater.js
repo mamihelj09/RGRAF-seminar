@@ -1,9 +1,4 @@
 import {
-  KEY_RIGHT,
-  KEY_LEFT,
-  KEY_TOP,
-  KEY_BOTTOM,
-  KEY_SPACE,
   SPEED,
   SHOOT_DISTANCE,
 } from './consts';
@@ -12,29 +7,36 @@ import {
 } from './helpers';
 
 export function updater(opts) {
-  const {renderer, scene, camera, clock, enemies, bullets, hero, defence} = opts;
+  const {renderer, scene, clock, enemies, bullets, hero, defence, enemyModel} = opts;
+
+  if (defence.isDead() || hero.isDead()) {
+    return;
+  }
 
   requestAnimationFrame(() => updater(opts));
   const delta = clock.getDelta();
+  console.log(delta % 48 === 0);
   enemies.forEach((enemy, i) => {
     if (!enemy.checkColision(hero)) {
-      enemy._model.translateY(-(SPEED / 5) * delta);
+      enemy._model.translateX(-(SPEED / 5) * delta);
     } else {
+      scene.remove(enemy._model);
       enemies.splice(i, 1);
-      scene.remove(enemy._model)
+      hero.handleShipAttacked();
 
-      defenceScore = defenceScore - 5;
-      defenceElement.innerHTML = defenceScore;
-      randomEnemy(scene, enemies);
+      const newEnemy = randomEnemy(enemyModel.clone());
+      scene.add(newEnemy._model);
+      enemies.push(newEnemy);
     }
 
     if (enemy.checkColision(defence)) {
       enemies.splice(i, 1);
       scene.remove(enemy._model)
+      defence.handleShipAttacked();
 
-      const enemy = randomEnemy(enemyModel.clone());
-      scene.add(enemy._model);
-      enemies.push(enemy);
+      const newEnemy = randomEnemy(enemyModel.clone());
+      scene.add(newEnemy._model);
+      enemies.push(newEnemy);
     }
   });
 
@@ -52,16 +54,15 @@ export function updater(opts) {
 
           enemies.splice(i, 1);
           scene.remove(enemy._model)
+          hero.handleEnemyKill();
 
-          kills++;
-          scoreElement.innerHTML = kills;
-
-          randomEnemy(scene, enemies);
+          const newEnemy = randomEnemy(enemyModel.clone());
+          scene.add(newEnemy._model);
+          enemies.push(newEnemy);
         }
       });
     }
   });
-
 
   renderer.update();
 };

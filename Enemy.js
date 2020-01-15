@@ -4,13 +4,20 @@ import { HEALTH_BONUS, MULTY_BULLET_BONUS } from './consts';
 
 export class Enemy {
   constructor(model, position) {
-    this._model = model;
+    const geometry = new THREE.BoxGeometry(12, 12, 12);
+    const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0.3});
+
+    this._ship = model;
+    this._ship.position.set(0, 0, 0);
+    this._ship.scale.set(0.15, 0.15, 0.15);
+    this._ship.rotateZ(-1.55);
+    this._ship.rotateX(0);
+
+    this._model = new THREE.Mesh(geometry, material);
+    this._model.add(this._ship);
+    this._model.geometry.computeBoundingBox();
     this._model.position.copy(position);
-    this._model.scale.set(0.15, 0.15, 0.15);
-    this._model.rotateZ(-1.6);
-    this._model.rotateX(0.2);
-    this._boundery = new THREE.BoxHelper(this._model);
-    this._boundery.geometry.computeBoundingBox();
+
     this.bonus = this._generateBonus();
   }
 
@@ -31,14 +38,14 @@ export class Enemy {
   }
 
   checkColision(object) {
-    this._boundery.updateMatrixWorld();
-    object._boundery.updateMatrixWorld();
+    this._model.updateMatrixWorld();
+    object._model.updateMatrixWorld();
 
-    const thisBox = this._boundery.geometry.boundingBox.clone();
-    thisBox.applyMatrix4(this._boundery.matrixWorld);
+    const thisBox = this._model.geometry.boundingBox.clone();
+    thisBox.applyMatrix4(this._model.matrixWorld);
 
-    const objectBox = object._boundery.geometry.boundingBox.clone();
-    objectBox.applyMatrix4(object._boundery.matrixWorld);
+    const objectBox = object._model.geometry.boundingBox.clone();
+    objectBox.applyMatrix4(object._model.matrixWorld);
 
     return thisBox.intersectsBox(objectBox);
   }
