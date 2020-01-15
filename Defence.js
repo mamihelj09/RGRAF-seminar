@@ -21,7 +21,7 @@ export class Defence {
     this._model.geometry.computeBoundingBox();
     this._model.add(this._orbit);
 
-    this._health = 10;
+    this._health = 100;
   }
 
   getPosition() {
@@ -29,7 +29,7 @@ export class Defence {
   }
 
   handleShipAttacked() {
-    this._health -= 100;
+    this._health -= 10;
     const planetHealthElement = document.getElementById('planet-health');
 
     if (planetHealthElement) {
