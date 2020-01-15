@@ -12,6 +12,8 @@ export const MIN_RESPAWN_Z = -35;
 export const SPEED = 50;
 export const SHOOT_DISTANCE = MIN_RESPAWN_X;
 export const MAX_ENEMY_NUMBER = 10;
+export const LEFT_RIGHT_MOVE_SPEED = 0.8;
+export const FRONT_BACK_MOVE_SPEED = 1;
 
 export const HEALTH_BONUS = 'health';
 export const MULTY_BULLET_BONUS = 'multy';

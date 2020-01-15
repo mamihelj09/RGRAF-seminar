@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { LEFT_RIGHT_MOVE_SPEED, FRONT_BACK_MOVE_SPEED } from './consts';
+
 export class Hero {
   constructor(model, position) {
     const geometry = new THREE.BoxGeometry(12, 12, 12);
@@ -23,7 +25,7 @@ export class Hero {
 
   moveRight(offset) {
     if (this._model.position.z < 35) {
-      this._model.position.z += 0.5 ;
+      this._model.position.z += LEFT_RIGHT_MOVE_SPEED ;
     }
     this._model.rotation.x += 0.03;
 
@@ -34,7 +36,7 @@ export class Hero {
 
   moveLeft(offset) {
     if (this._model.position.z > -35) {
-      this._model.position.z -= 0.5 ;
+      this._model.position.z -= LEFT_RIGHT_MOVE_SPEED ;
     }
     this._model.rotation.x -= 0.03;
 
@@ -45,7 +47,7 @@ export class Hero {
 
   moveUp() {
     if (this._model.position.x < 30) {
-      this._model.position.x += 1 ;
+      this._model.position.x += FRONT_BACK_MOVE_SPEED ;
     }
     this._model.rotation.z -= 0.01;
 
@@ -56,7 +58,7 @@ export class Hero {
 
   moveDown() {
     if (this._model.position.x > -40) {
-      this._model.position.x -= 1;
+      this._model.position.x -= FRONT_BACK_MOVE_SPEED;
     }
     this._model.rotation.z += 0.01;
 
