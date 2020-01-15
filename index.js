@@ -35,7 +35,7 @@ modelLoader().then((loadedModels) => {
   const bullets = [];
 
   // ADD LIGHT
-  const light = new THREE.HemisphereLight('#000', 'green', 2);
+  const light = new THREE.HemisphereLight('#000', 'white', 2);
   scene.add(light);
 
   // CREATE HERO

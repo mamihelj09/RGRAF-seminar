@@ -2,14 +2,14 @@ import * as THREE from 'three';
 
 export class Defence {
   constructor(position) {
-    const planetGeometry = new THREE.IcosahedronGeometry(50, 1);
+    const planetGeometry = new THREE.IcosahedronGeometry(45, 2);
     const orbitGeometry = new THREE.IcosahedronGeometry(60, 1);
     const planetMatherial = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
+      color: '#03adfc',
       shading: THREE.FlatShading
     });
     const orbitMaterial = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
+      color: '#03fc07',
       wireframe: true,
       side: THREE.DoubleSide
     });
@@ -21,7 +21,7 @@ export class Defence {
     this._model.geometry.computeBoundingBox();
     this._model.add(this._orbit);
 
-    this._health = 100;
+    this._health = 10;
   }
 
   getPosition() {
@@ -39,5 +39,9 @@ export class Defence {
 
   isDead() {
     return this._health < 1;
+  }
+
+  rotatePlanet() {
+    this._model.rotateY(0.0005);
   }
 }

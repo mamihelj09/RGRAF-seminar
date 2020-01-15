@@ -13,6 +13,7 @@ export function updater(opts) {
 
   requestAnimationFrame(() => updater(opts));
   const delta = clock.getDelta();
+  defence.rotatePlanet();
 
   if (clock.getElapsedTime() % 10 < 0.01 && enemies.length <= MAX_ENEMY_NUMBER) {
     const newEnemy = randomEnemy(enemyModel.clone());
@@ -50,13 +51,14 @@ export function updater(opts) {
       scene.remove(bullet._model)
     } else {
       bullet.translateX(SPEED * delta);
-      enemies.forEach((enemy, i) => {
+
+      enemies.forEach((enemy, j) => {
         if (enemy.checkColision(bullet)) {
 
           bullets.splice(i, 1);
           scene.remove(bullet._model)
 
-          enemies.splice(i, 1);
+          enemies.splice(j, 1);
           scene.remove(enemy._model)
           hero.handleEnemyKill();
 
