@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 export class Defence {
-  constructor(model, position) {
+  constructor(position) {
     const planetGeometry = new THREE.IcosahedronGeometry(50, 1);
     const orbitGeometry = new THREE.IcosahedronGeometry(60, 1);
     const planetMatherial = new THREE.MeshPhongMaterial({
@@ -29,7 +29,7 @@ export class Defence {
   }
 
   handleShipAttacked() {
-    this._health -= 10;
+    this._health -= 100;
     const planetHealthElement = document.getElementById('planet-health');
 
     if (planetHealthElement) {

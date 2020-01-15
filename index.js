@@ -9,8 +9,6 @@ import { Defence } from './Defence';
 import { modelLoader } from './loader';
 import { updater } from './updater';
 
-import { Enemy } from './Enemy';
-
 import {
   KEY_RIGHT,
   KEY_LEFT,
@@ -25,25 +23,16 @@ import {
 } from './helpers';
 
 modelLoader().then((loadedModels) => {
-  const { heroModel, enemyModel, planetModel } = loadedModels;
+  const { heroModel, enemyModel, bossModel } = loadedModels;
   const scene = new THREE.Scene();
-  // const camera = new Camera(new THREE.Vector3(-40, 80, 80), scene.position);
-  const camera = new Camera(new THREE.Vector3(-120, 180, 10), scene.position);
+  const camera = new Camera(new THREE.Vector3(-60, 90, 100), scene.position);
   const renderer = new Renderer(scene, camera._model);
   const clock = new THREE.Clock();
-
-  // const scoreElement = document.getElementById('score');
-  // const defenceElement = document.getElementById('defence');
 
   document.getElementById('app').appendChild(renderer._model.domElement);
 
   const enemies = [];
   const bullets = [];
-  // let delta = 0;
-  // let kills = 0;
-  // let defenceScore = 100;
-  // scoreElement.innerHTML = kills;
-  // defenceElement.innerHTML = defenceScore;
 
   // ADD LIGHT
   const light = new THREE.HemisphereLight('#000', 'green', 2);
@@ -54,19 +43,20 @@ modelLoader().then((loadedModels) => {
   scene.add(hero._model);
 
   // CREATE DEFENCE
-  const defence = new Defence(planetModel.clone(), new THREE.Vector3(-120, 0, 0));
+  const defence = new Defence(new THREE.Vector3(-120, 0, 0));
   scene.add(defence._model);
 
   // CREATE ENEMY
-  for(let i = 0; i < 3; i++) {
-    const enemy = randomEnemy(enemyModel.clone());
-    scene.add(enemy._model);
-    enemies.push(enemy);
-  }
+  const enemy = randomEnemy(enemyModel.clone());
+  scene.add(enemy._model);
+  enemies.push(enemy);
 
   renderer.update();
 
-  document.getElementById('start').addEventListener('click', () => updater({renderer, scene, camera, clock, enemies, bullets, hero, defence, enemyModel}));
+  renderer.infoBtn.addEventListener('click', () => {
+    renderer.infoBox.classList.add('hidden');
+    updater({renderer, scene, camera, clock, enemies, bullets, hero, defence, enemyModel});
+  });
   document.addEventListener('keydown', (e) => {
     if (e.keyCode === KEY_RIGHT) {
       hero.moveRight();

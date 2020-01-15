@@ -1,21 +1,25 @@
-import {
-  SPEED,
-  SHOOT_DISTANCE,
-} from './consts';
-import {
-  randomEnemy,
-} from './helpers';
+import { randomEnemy } from './helpers';
+import { SPEED, SHOOT_DISTANCE, MAX_ENEMY_NUMBER } from './consts';
 
 export function updater(opts) {
   const {renderer, scene, clock, enemies, bullets, hero, defence, enemyModel} = opts;
 
   if (defence.isDead() || hero.isDead()) {
+    renderer.infoText.innerText = "GAME OVER";
+    renderer.infoBox.removeChild(renderer.infoBtn);
+    renderer.infoBox.classList.remove('hidden');
     return;
   }
 
   requestAnimationFrame(() => updater(opts));
   const delta = clock.getDelta();
-  console.log(delta % 48 === 0);
+
+  if (clock.getElapsedTime() % 10 < 0.01 && enemies.length <= MAX_ENEMY_NUMBER) {
+    const newEnemy = randomEnemy(enemyModel.clone());
+    scene.add(newEnemy._model);
+    enemies.push(newEnemy);
+  }
+
   enemies.forEach((enemy, i) => {
     if (!enemy.checkColision(hero)) {
       enemy._model.translateX(-(SPEED / 5) * delta);

@@ -1,12 +1,9 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-import ship_hero from './assets/ship_good.glb';
 
 export class Hero {
   constructor(model, position) {
     const geometry = new THREE.BoxGeometry(12, 12, 12);
-    const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0.3});
+    const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0});
 
     this._ship = model;
     this._ship.position.set(0, 0, 0);

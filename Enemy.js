@@ -5,7 +5,7 @@ import { HEALTH_BONUS, MULTY_BULLET_BONUS } from './consts';
 export class Enemy {
   constructor(model, position) {
     const geometry = new THREE.BoxGeometry(12, 12, 12);
-    const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0.3});
+    const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0});
 
     this._ship = model;
     this._ship.position.set(0, 0, 0);

@@ -3,26 +3,60 @@ html, body {
   width: 100%;
   height: 100%;
   position: relative;
+  font-size: 16px;
+  font-family: monospace;
+  overflow: hidden;
 }
 
 canvas {
-  background: linear-gradient(to bottom,  #11e8bb 0%,#8200c9 100%);
+  background-image: url("./assets/space.jpg");
 }
 
 .score {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
-  border: 1px solid #333;
+  color: #fff;
+  border: 1px solid #fff;
   padding: 10px;
 }
 
-.btn {
-  margin: 5px 0 0;
-  width: 100%;
-  padding: 4px 8px;
-  color: green;
+.score__label {
+  display: inline-block;
+  min-width: 120px;
+}
+
+.score__label span {
+  float: right;
   font-weight: 700;
-  text-decoration: underline;
-  border: 1px solid green;
+  color: coral;
+}
+
+.info-box {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+}
+
+.info-box button {
+  width: 200px;
+  height: 42px;
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 12px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
