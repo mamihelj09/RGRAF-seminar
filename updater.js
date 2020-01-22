@@ -25,12 +25,14 @@ export function updater(opts) {
   const delta = clock.getDelta();
   defence.rotatePlanet();
 
+  // create "random" enemy
   if (clock.getElapsedTime() % 10 < 0.01 && state.enemies.length <= MAX_ENEMY_NUMBER && !state.isBossModeOn) {
     const newEnemy = randomEnemy(enemyModel.clone());
     scene.add(newEnemy._model);
     state.enemies.push(newEnemy);
   }
 
+  // handle boss colision
   if (state.boss !== null) {
     if (!state.boss.checkColision(hero)) {
       state.boss._model.translateX(-(SPEED / 10) * delta);
@@ -43,6 +45,7 @@ export function updater(opts) {
     }
   }
 
+  // check all enemies colisions
   state.enemies.forEach((enemy, i) => {
     if (!enemy.checkColision(hero)) {
       enemy._model.translateX(-(SPEED / 5) * delta);
@@ -71,6 +74,7 @@ export function updater(opts) {
     }
   });
 
+  // check bullets colisions
   state.bullets.forEach((bullet, i) => {
     if (bullet.getPosition().x > SHOOT_DISTANCE) {
       state.bullets.splice(i, 1);

@@ -21,6 +21,11 @@ export class Boss {
 
     this.healt = 20;
     this.bonus = this._generateBonus();
+    this._hpWrapper = document.getElementById('boss-wrapper');
+    this._hpScore = document.getElementById('boss-hp');
+
+    this._hpWrapper.classList.remove('hidden');
+    this._hpScore.style.width = '400px';
   }
 
   _generateBonus() {
@@ -55,6 +60,7 @@ export class Boss {
   handleBulletHit() {
     if (this.healt > 0) {
       this.healt = this.healt - 1;
+      this._hpScore.style.width = `${this.healt * 20}px`;
     }
 
     return this.healt;

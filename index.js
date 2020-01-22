@@ -8,7 +8,7 @@ import { Defence } from './Defence';
 
 import { modelLoader } from './loader';
 import { updater } from './updater';
-
+import { randomEnemy } from './helpers';
 import {
   KEY_RIGHT,
   KEY_LEFT,
@@ -16,9 +16,6 @@ import {
   KEY_BOTTOM,
   KEY_SPACE,
 } from './consts';
-import {
-  randomEnemy,
-} from './helpers';
 
 modelLoader().then((loadedModels) => {
   const { heroModel, enemyModel, bossModel } = loadedModels;

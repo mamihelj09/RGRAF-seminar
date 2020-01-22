@@ -59,6 +59,26 @@ canvas {
   cursor: pointer;
 }
 
+.boss_hp {
+  position: absolute;
+  width: 400px;
+  height: 14px;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: rgba(44, 37, 70, 0.4);
+  border-radius: 20px;
+}
+
+.boss_hp--gone {
+  position: absolute;
+  width: 400px;
+  height: 14px;
+  background-color: rgba(252, 3, 48, 0.4);
+  border-radius: 20px;
+}
+
 .hidden {
   display: none;
 }
