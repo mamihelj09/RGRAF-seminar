@@ -77,6 +77,10 @@ export class Hero {
     return this._model.position;
   }
 
+  getScore() {
+    return this._score;
+  }
+
   handleShipAttacked() {
     this._health -= 10;
     const shipHealthElement = document.getElementById('ship-health');

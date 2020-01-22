@@ -15,8 +15,6 @@ import {
   KEY_TOP,
   KEY_BOTTOM,
   KEY_SPACE,
-  SPEED,
-  SHOOT_DISTANCE,
 } from './consts';
 import {
   randomEnemy,
@@ -31,8 +29,12 @@ modelLoader().then((loadedModels) => {
 
   document.getElementById('app').appendChild(renderer._model.domElement);
 
-  const enemies = [];
-  const bullets = [];
+  const state = {
+    isBossModeOn: false,
+    enemies: [],
+    bullets: [],
+    boss: null,
+  };
 
   // ADD LIGHT
   const light = new THREE.HemisphereLight('#000', 'white', 2);
@@ -49,13 +51,13 @@ modelLoader().then((loadedModels) => {
   // CREATE ENEMY
   const enemy = randomEnemy(enemyModel.clone());
   scene.add(enemy._model);
-  enemies.push(enemy);
+  state.enemies.push(enemy);
 
   renderer.update();
 
   renderer.infoBtn.addEventListener('click', () => {
     renderer.infoBox.classList.add('hidden');
-    updater({renderer, scene, camera, clock, enemies, bullets, hero, defence, enemyModel});
+    updater({renderer, scene, camera, clock, hero, defence, enemyModel, bossModel, state});
   });
   document.addEventListener('keydown', (e) => {
     if (e.keyCode === KEY_RIGHT) {
@@ -69,7 +71,7 @@ modelLoader().then((loadedModels) => {
     } else if (e.keyCode === KEY_SPACE) {
       const bullet = new Bullet(hero.getPosition());
       scene.add(bullet._model);
-      bullets.push(bullet);
+      state.bullets.push(bullet);
     }
   })
 })
