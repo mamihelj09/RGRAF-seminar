@@ -13,3 +13,7 @@
 <kbd>left</kbd> - left<br>
 <kbd>right</kbd> - right<br>
 <kbd>space</kbd> - shoot
+
+
+#### MODELS AUTHOR
+all models where created by [Clément Dussol](https://sketchfab.com/faktori)
