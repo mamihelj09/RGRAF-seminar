@@ -10,6 +10,8 @@ html, body {
 
 canvas {
   background-image: url("./assets/space.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .score {
