@@ -1,6 +1,12 @@
 import * as THREE from 'three';
 
-import { LEFT_RIGHT_MOVE_SPEED, FRONT_BACK_MOVE_SPEED } from './consts';
+import {
+  LEFT_RIGHT_MOVE_SPEED,
+  FRONT_BACK_MOVE_SPEED,
+  LEFT_RIGHT_ROTATION_ANGLE,
+  FRONT_BACK_ROTATION_ANGLE,
+  SHIP_MOVEMENT_BOUNDERIES,
+} from './consts';
 
 export class Hero {
   constructor(model, position) {
@@ -23,47 +29,47 @@ export class Hero {
     this._score = 0;
   }
 
-  moveRight(offset) {
-    if (this._model.position.z < 35) {
+  moveRight() {
+    if (this._model.position.z < SHIP_MOVEMENT_BOUNDERIES.RIGHT) {
       this._model.position.z += LEFT_RIGHT_MOVE_SPEED ;
     }
-    this._model.rotation.x += 0.03;
+    this._model.rotation.x += LEFT_RIGHT_ROTATION_ANGLE;
 
     setTimeout(() => {
-      this._model.rotation.x -= 0.03;
+      this._model.rotation.x -= LEFT_RIGHT_ROTATION_ANGLE;
     }, 300)
   }
 
-  moveLeft(offset) {
-    if (this._model.position.z > -35) {
+  moveLeft() {
+    if (this._model.position.z > SHIP_MOVEMENT_BOUNDERIES.LEFT) {
       this._model.position.z -= LEFT_RIGHT_MOVE_SPEED ;
     }
-    this._model.rotation.x -= 0.03;
+    this._model.rotation.x -= LEFT_RIGHT_ROTATION_ANGLE;
 
     setTimeout(() => {
-      this._model.rotation.x += 0.03;
+      this._model.rotation.x += LEFT_RIGHT_ROTATION_ANGLE;
     }, 300)
   }
 
   moveUp() {
-    if (this._model.position.x < 30) {
+    if (this._model.position.x < SHIP_MOVEMENT_BOUNDERIES.TOP) {
       this._model.position.x += FRONT_BACK_MOVE_SPEED ;
     }
-    this._model.rotation.z -= 0.01;
+    this._model.rotation.z -= FRONT_BACK_ROTATION_ANGLE;
 
     setTimeout(() => {
-      this._model.rotation.z += 0.01;
+      this._model.rotation.z += FRONT_BACK_ROTATION_ANGLE;
     }, 300)
   }
 
   moveDown() {
-    if (this._model.position.x > -40) {
+    if (this._model.position.x > SHIP_MOVEMENT_BOUNDERIES.BOTTOM) {
       this._model.position.x -= FRONT_BACK_MOVE_SPEED;
     }
-    this._model.rotation.z += 0.01;
+    this._model.rotation.z += FRONT_BACK_ROTATION_ANGLE;
 
     setTimeout(() => {
-      this._model.rotation.z -= 0.01;
+      this._model.rotation.z -= FRONT_BACK_ROTATION_ANGLE;
     }, 300)
   }
 
