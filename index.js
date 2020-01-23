@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 
-import { Camera } from './Camera';
-import { Renderer } from './Renderer';
-import { Scene } from './Scene';
+import { Camera } from './models/Camera';
+import { Renderer } from './models/Renderer';
+import { Scene } from './models/Scene';
 
 import { modelLoader } from './loader';
 import { updater } from './updater';

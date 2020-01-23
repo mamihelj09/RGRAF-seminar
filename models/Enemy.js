@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 
-import { HEALTH_BONUS, MULTY_BULLET_BONUS } from './consts';
+import { HEALTH_BONUS, MULTY_BULLET_BONUS } from '../consts';
 
-export class Boss {
+export class Enemy {
   constructor(model, position) {
     const geometry = new THREE.BoxGeometry(12, 12, 12);
     const material = new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0});
 
     this._ship = model;
     this._ship.position.set(0, 0, 0);
-    this._ship.scale.set(1.8, 1.8, 1.8);
+    this._ship.scale.set(0.15, 0.15, 0.15);
     this._ship.rotateZ(-1.55);
     this._ship.rotateX(0);
 
@@ -18,14 +18,7 @@ export class Boss {
     this._model.geometry.computeBoundingBox();
     this._model.position.copy(position);
 
-
-    this.healt = 20;
     this.bonus = this._generateBonus();
-    this._hpWrapper = document.getElementById('boss-wrapper');
-    this._hpScore = document.getElementById('boss-hp');
-
-    this._hpWrapper.classList.remove('hidden');
-    this._hpScore.style.width = '400px';
   }
 
   _generateBonus() {
@@ -55,14 +48,5 @@ export class Boss {
     objectBox.applyMatrix4(object._model.matrixWorld);
 
     return thisBox.intersectsBox(objectBox);
-  }
-
-  handleBulletHit() {
-    if (this.healt > 0) {
-      this.healt = this.healt - 1;
-      this._hpScore.style.width = `${this.healt * 20}px`;
-    }
-
-    return this.healt;
   }
 }

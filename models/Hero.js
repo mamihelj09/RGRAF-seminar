@@ -6,7 +6,7 @@ import {
   LEFT_RIGHT_ROTATION_ANGLE,
   FRONT_BACK_ROTATION_ANGLE,
   SHIP_MOVEMENT_BOUNDERIES,
-} from './consts';
+} from '../consts';
 
 export class Hero {
   constructor(model, position) {

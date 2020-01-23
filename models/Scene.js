@@ -11,7 +11,7 @@ import {
   MIN_RESPAWN_X,
   MAX_RESPAWN_Z,
   MIN_RESPAWN_Z
-} from './consts';
+} from '../consts';
 
 export class Scene {
   constructor(heroModel, enemyModel, bossModel) {
