@@ -10,8 +10,8 @@ export class Renderer {
     this.infoText = document.getElementById('hidden-info-text');
     this.infoBtn = document.getElementById('hidden-info-btn');
 
-    this._screen = screen;
-    this._camera = camera;
+    this._screen = screen._model;
+    this._camera = camera._model;
     document.getElementById('app').appendChild(this._model.domElement);
   }
 

@@ -1,14 +1,11 @@
 import * as THREE from 'three';
 
-import { Bullet } from './Bullet';
 import { Camera } from './Camera';
-import { Hero } from './Hero';
 import { Renderer } from './Renderer';
-import { Defence } from './Defence';
+import { Scene } from './Scene';
 
 import { modelLoader } from './loader';
 import { updater } from './updater';
-import { randomEnemy } from './helpers';
 import {
   KEY_RIGHT,
   KEY_LEFT,
@@ -19,9 +16,9 @@ import {
 
 modelLoader().then((loadedModels) => {
   const { heroModel, enemyModel, bossModel } = loadedModels;
-  const scene = new THREE.Scene();
-  const camera = new Camera(new THREE.Vector3(-60, 90, 100), scene.position);
-  const renderer = new Renderer(scene, camera._model);
+  const scene = new Scene(heroModel, enemyModel, bossModel);
+  const camera = new Camera(new THREE.Vector3(-60, 90, 100), scene.getPosition());
+  const renderer = new Renderer(scene, camera);
   const clock = new THREE.Clock();
 
   document.getElementById('app').appendChild(renderer._model.domElement);
@@ -31,44 +28,42 @@ modelLoader().then((loadedModels) => {
     enemies: [],
     bullets: [],
     boss: null,
+    hero: null,
+    defence: null,
   };
 
   // ADD LIGHT
-  const light = new THREE.HemisphereLight('#000', 'white', 2);
-  scene.add(light);
+  scene.addToScene(new THREE.HemisphereLight('#000', 'white', 2))
 
   // CREATE HERO
-  const hero = new Hero(heroModel.clone(), new THREE.Vector3(-25, -2, 20));
-  scene.add(hero._model);
+  state.hero = scene.addHero(new THREE.Vector3(-25, -2, 20));
 
   // CREATE DEFENCE
-  const defence = new Defence(new THREE.Vector3(-120, 0, 0));
-  scene.add(defence._model);
+  state.defence = scene.addDefence(new THREE.Vector3(-120, 0, 0))
 
   // CREATE ENEMY
-  const enemy = randomEnemy(enemyModel.clone());
-  scene.add(enemy._model);
-  state.enemies.push(enemy);
+  state.enemies.push(scene.addRandomEnemy());
 
   renderer.update();
 
+  // start game button
   renderer.infoBtn.addEventListener('click', () => {
     renderer.infoBox.classList.add('hidden');
-    updater({renderer, scene, camera, clock, hero, defence, enemyModel, bossModel, state});
+    updater({renderer, scene, camera, clock, state});
   });
+
+  // controls
   document.addEventListener('keydown', (e) => {
     if (e.keyCode === KEY_RIGHT) {
-      hero.moveRight();
+      state.hero.moveRight();
     } else if (e.keyCode === KEY_LEFT) {
-      hero.moveLeft();
+      state.hero.moveLeft();
     } else if (e.keyCode === KEY_TOP) {
-      hero.moveUp();
+      state.hero.moveUp();
     } else if (e.keyCode === KEY_BOTTOM) {
-      hero.moveDown();
+      state.hero.moveDown();
     } else if (e.keyCode === KEY_SPACE) {
-      const bullet = new Bullet(hero.getPosition());
-      scene.add(bullet._model);
-      state.bullets.push(bullet);
+      state.bullets.push(scene.addBullet(state.hero.getPosition()));
     }
   })
 })

@@ -1,75 +1,68 @@
 import * as THREE from 'three';
 
-import { Boss } from './Boss';
-import { randomEnemy } from './helpers';
 import { SPEED, SHOOT_DISTANCE, MAX_ENEMY_NUMBER } from './consts';
 
 export function updater(opts) {
-  const { renderer, scene, clock, hero, defence, enemyModel, bossModel, state } = opts;
+  const { renderer, scene, clock, state } = opts;
 
-  if (defence.isDead() || hero.isDead()) {
-    renderer.infoText.innerText = "GAME OVER";
+  // check if game is over
+  if (state.defence.isDead() || state.hero.isDead()) {
+    renderer.infoText.innerText = 'GAME OVER';
     renderer.infoBox.removeChild(renderer.infoBtn);
     renderer.infoBox.classList.remove('hidden');
     return;
-  } else if (hero.getScore() > 0 && hero.getScore() % 50 === 0 && !state.isBossModeOn) {
-    state.isBossModeOn = true;
+  }
 
+  // check if spawn boss
+  if (state.hero.getScore() > 0 && state.hero.getScore() % 5 === 0 && !state.isBossModeOn) {
     // ADD BOSS
-    const boss = new Boss(bossModel.clone(), new THREE.Vector3(180, 0 , 20))
-    scene.add(boss._model);
-    state.boss = boss;
+    state.boss = scene.addBoss(new THREE.Vector3(180, 0 , 20));
+    state.isBossModeOn = true;
   }
 
   requestAnimationFrame(() => updater(opts));
   const delta = clock.getDelta();
-  defence.rotatePlanet();
+  state.defence.rotatePlanet();
 
-  // create "random" enemy
+  // spawn random enemy
   if (clock.getElapsedTime() % 10 < 0.01 && state.enemies.length <= MAX_ENEMY_NUMBER && !state.isBossModeOn) {
-    const newEnemy = randomEnemy(enemyModel.clone());
-    scene.add(newEnemy._model);
-    state.enemies.push(newEnemy);
+    state.enemies.push(scene.addRandomEnemy());
   }
 
   // handle boss colision
-  if (state.boss !== null) {
-    if (!state.boss.checkColision(hero)) {
+  if (state.boss) {
+    if (!state.boss.checkColision(state.hero)) {
       state.boss._model.translateX(-(SPEED / 10) * delta);
     } else {
-      scene.remove(state.boss._model);
+      scene.removeFromScene(state.boss);
       state.boss = null;
       state.isBossModeOn = false;
 
-      hero.handleShipAttacked();
+      state.hero.handleShipAttacked();
     }
   }
 
   // check all enemies colisions
   state.enemies.forEach((enemy, i) => {
-    if (!enemy.checkColision(hero)) {
+    if (!enemy.checkColision(state.hero)) {
       enemy._model.translateX(-(SPEED / 5) * delta);
     } else {
-      scene.remove(enemy._model);
+      scene.removeFromScene(enemy);
       state.enemies.splice(i, 1);
-      hero.handleShipAttacked();
+      state.hero.handleShipAttacked();
 
       if (!state.isBossModeOn) {
-        const newEnemy = randomEnemy(enemyModel.clone());
-        scene.add(newEnemy._model);
-        state.enemies.push(newEnemy);
+        state.enemies.push(scene.addRandomEnemy());
       }
     }
 
-    if (enemy.checkColision(defence)) {
+    if (enemy.checkColision(state.defence)) {
       state.enemies.splice(i, 1);
-      scene.remove(enemy._model)
-      defence.handleShipAttacked();
+      scene.removeFromScene(enemy)
+      state.defence.handleShipAttacked();
 
       if (!state.isBossModeOn) {
-        const newEnemy = randomEnemy(enemyModel.clone());
-        scene.add(newEnemy._model);
-        state.enemies.push(newEnemy);
+        state.enemies.push(scene.addRandomEnemy());
       }
     }
   });
@@ -78,42 +71,36 @@ export function updater(opts) {
   state.bullets.forEach((bullet, i) => {
     if (bullet.getPosition().x > SHOOT_DISTANCE) {
       state.bullets.splice(i, 1);
-      scene.remove(bullet._model)
+      scene.removeFromScene(bullet)
     } else {
       bullet.translateX(SPEED * delta);
 
-
       if (state.isBossModeOn && state.boss.checkColision(bullet)) {
         state.bullets.splice(i, 1);
-        scene.remove(bullet._model)
+        scene.removeFromScene(bullet)
 
         if (state.boss.handleBulletHit() < 1) {
-          scene.remove(bullet._model)
-          scene.remove(state.boss._model);
+          scene.removeFromScene(bullet)
+          scene.removeFromScene(state.boss);
           state.boss = null;
           state.isBossModeOn = false;
 
-          hero.handleEnemyKill();
-          const newEnemy = randomEnemy(enemyModel.clone());
-          scene.add(newEnemy._model);
-          state.enemies.push(newEnemy);
+          state.hero.handleEnemyKill();
+          state.enemies.push(scene.addRandomEnemy());
         }
       }
 
       state.enemies.forEach((enemy, j) => {
         if (enemy.checkColision(bullet)) {
-
           state.bullets.splice(i, 1);
-          scene.remove(bullet._model)
+          scene.removeFromScene(bullet)
 
           state.enemies.splice(j, 1);
-          scene.remove(enemy._model)
-          hero.handleEnemyKill();
+          scene.removeFromScene(enemy)
+          state.hero.handleEnemyKill();
 
           if (!state.isBossModeOn) {
-            const newEnemy = randomEnemy(enemyModel.clone());
-            scene.add(newEnemy._model);
-            state.enemies.push(newEnemy);
+            state.enemies.push(scene.addRandomEnemy());
           }
         }
       });
