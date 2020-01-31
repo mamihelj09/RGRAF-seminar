@@ -14,7 +14,7 @@ export function updater(opts) {
   }
 
   // check if spawn boss
-  if (state.hero.getScore() > 0 && state.hero.getScore() % 5 === 0 && !state.isBossModeOn) {
+  if (state.hero.getScore() > 0 && state.hero.getScore() % 50 === 0 && !state.isBossModeOn) {
     // ADD BOSS
     state.boss = scene.addBoss(new THREE.Vector3(180, 0 , 20));
     state.isBossModeOn = true;

@@ -1,17 +1,24 @@
 import * as THREE from 'three';
 
+import canvasEarth from '../assets/earth.jpg'
+import canvasCloud from '../assets/clouds.jpg'
+
 export class Defence {
   constructor(position) {
-    const planetGeometry = new THREE.IcosahedronGeometry(45, 2);
-    const orbitGeometry = new THREE.IcosahedronGeometry(60, 1);
+    const planetGeometry = new THREE.IcosahedronGeometry(50, 6);
+    const orbitGeometry = new THREE.IcosahedronGeometry(55, 6);
     const planetMatherial = new THREE.MeshPhongMaterial({
+      map: new THREE.ImageUtils.loadTexture(canvasEarth),
       color: '#03adfc',
+      opacity: 1,
       shading: THREE.FlatShading
     });
     const orbitMaterial = new THREE.MeshPhongMaterial({
-      color: '#03fc07',
-      wireframe: true,
-      side: THREE.DoubleSide
+      map: new THREE.ImageUtils.loadTexture(canvasCloud),
+      side: THREE.DoubleSide,
+      opacity: 0.1,
+      transparent: true,
+      depthWrite: false,
     });
 
     this._orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
@@ -43,5 +50,6 @@ export class Defence {
 
   rotatePlanet() {
     this._model.rotateY(0.0005);
+    this._orbit.rotateY(-0.0009);
   }
 }
